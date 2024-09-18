@@ -78,7 +78,7 @@ async def start_command(client: Client, message: Message):
                 pass
         return
     else:
-        await message.reply_photo(
+        await message.reply(
             caption= START_MSG.format(
                 first = message.from_user.first_name,
                 last = message.from_user.last_name,
@@ -103,12 +103,6 @@ REPLY_ERROR = "<code>Use this command as a reply to any telegram message without
     
 @Bot.on_message(filters.command('start') & filters.private)
 async def not_joined(client: Client, message: Message):
-    buttons = [
-        [
-            InlineKeyboardButton(text="• ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ", url=client.invitelink),
-            InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ •", url=client.invitelink2),
-        ]
-    ]
     try:
         buttons.append(
             [
@@ -121,8 +115,7 @@ async def not_joined(client: Client, message: Message):
     except IndexError:
         pass
 
-    await message.reply_photo(
-    photo=FORCE_PIC, 
+    await message.reply(
     caption=FORCE_MSG.format(
         first=message.from_user.first_name,
         last=message.from_user.last_name,
@@ -130,7 +123,6 @@ async def not_joined(client: Client, message: Message):
         mention=message.from_user.mention,
         id=message.from_user.id
     ),
-    reply_markup=InlineKeyboardMarkup(buttons)
 )
 
 @Bot.on_message(filters.command('users') & filters.private & filters.user(ADMINS))
